@@ -125,13 +125,11 @@ function createLocationDropdown(geoResults) {
 }
 
 function createWrongCountryDropdown() {
-    // Remove existing wrong country dropdown if any
     const existingWrongDropdown = document.getElementById('wrong-country-dropdown');
     if (existingWrongDropdown) {
         existingWrongDropdown.remove();
     }
 
-    // Only show if we have multiple results from the last search
     if (!currentGeoResults || currentGeoResults.length <= 1) return;
 
     const dropdownDiv = document.createElement('div');
@@ -148,7 +146,6 @@ function createWrongCountryDropdown() {
         option.value = index;
         const flag = getCountryFlag(result.country_code);
         option.textContent = `${flag} ${result.name}, ${result.country}${result.admin1 ? `, ${result.admin1}` : ''}`;
-        // Pre-select the currently selected location
         if (selectedLocationInfo && result.id === selectedLocationInfo.id) {
             option.selected = true;
         }
@@ -172,7 +169,6 @@ async function changeLocation() {
     const selectedIndex = select.value;
     const selectedLocation = currentGeoResults[selectedIndex];
     
-    // Store selected location info for display
     selectedLocationInfo = {
         id: selectedLocation.id,
         name: selectedLocation.name,
@@ -183,13 +179,11 @@ async function changeLocation() {
     const statusDiv = document.getElementById('rain-status');
     statusDiv.textContent = 'FETCHING';
 
-    // Remove wrong country dropdown
     const wrongDropdown = document.getElementById('wrong-country-dropdown');
     if (wrongDropdown) {
         wrongDropdown.remove();
     }
 
-    // Remove why dropdown
     const whyDiv = document.getElementById('why-div');
     if (whyDiv) {
         whyDiv.innerHTML = '';
@@ -218,7 +212,6 @@ async function selectLocation() {
     const selectedIndex = select.value;
     const selectedLocation = currentGeoResults[selectedIndex];
     
-    // Store selected location info for display
     selectedLocationInfo = {
         id: selectedLocation.id,
         name: selectedLocation.name,
@@ -286,10 +279,8 @@ document.getElementById('city-form').addEventListener('submit', async function(e
 
         currentGeoResults = geoData.results;
         
-        // Always use the first result automatically
         const { latitude, longitude } = geoData.results[0];
         
-        // Store selected location info for first result
         selectedLocationInfo = {
             id: geoData.results[0].id,
             name: geoData.results[0].name,
