@@ -263,32 +263,22 @@ h1 {
 }
 
 #wrong-country-dropdown {
-    max-width: 600px;
-    padding: 24px;
-    font-size: 1.15rem;
+    max-width: 420px;
+    padding: 10px;
+    font-size: 1rem;
 }
 
 #wrong-country-select {
-    min-width: 320px;
-    font-size: 1.15rem;
-    padding: 12px 18px;
+    min-width: 160px;
+    font-size: 1rem;
+    padding: 6px 10px;
 }
 
 #wrong-country-dropdown button {
-    font-size: 1.25rem;
-    padding: 16px 32px;
-    border-radius: 10px;
-    font-weight: 600;
-    max-width: 100%;
-    width: auto;
-    box-sizing: border-box;
-}
-
-#why-div button {
-    font-size: 1.25rem;
-    padding: 16px 32px;
-    border-radius: 10px;
-    font-weight: 600;
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 500;
     max-width: 100%;
     width: auto;
     box-sizing: border-box;
@@ -356,18 +346,17 @@ h1 {
     }
     #wrong-country-dropdown {
         max-width: 100vw;
-        padding: 12px;
-        font-size: 1rem;
+        padding: 8px;
+        font-size: 0.95rem;
     }
     #wrong-country-select {
-        min-width: 120px;
-        font-size: 1rem;
-        padding: 8px 12px;
+        min-width: 100px;
+        font-size: 0.95rem;
+        padding: 6px 8px;
     }
-    #wrong-country-dropdown button,
-    #why-div button {
-        font-size: 1.05rem;
-        padding: 12px 16px;
+    #wrong-country-dropdown button {
+        font-size: 0.95rem;
+        padding: 8px 10px;
         border-radius: 8px;
     }
 }
@@ -388,7 +377,6 @@ body.api-expanded, html.api-expanded {
     height: auto !important;
 }
 
-/* Show API sections and allow scrolling when visible */
 .api-section[style*="display: block"] {
     display: block !important;
 }
