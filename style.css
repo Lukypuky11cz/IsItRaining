@@ -1,94 +1,401 @@
-
-:root { /* look at this nice color palette I found ;) */
-    --night: #0b090a;
-    --eerie-black: #161a1d;
-    --blood-red: #660708;
-    --cornell-red: #a4161a;
-    --cornell-red-2: #ba181b;
-    --imperial-red: #e5383b;
-    --silver: #b1a7a6;
-    --timberwolf: #d3d3d3;
-    --white-smoke: #f5f3f4;
-    --white: #fff;
+:root {
+    /* Modern minimalistic color palette */
+    --background: #0f0f0f;
+    --surface: #1a1a1a;
+    --surface-elevated: #262626;
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --accent: #06b6d4;
+    --text-primary: #ffffff;
+    --text-secondary: #a3a3a3;
+    --text-muted: #737373;
+    --border: #404040;
+    --border-focus: #525252;
+    --success: #10b981;
+    --error: #ef4444;
+    --warning: #f59e0b;
 }
-
 
 body, html {
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden; /* Prevent scroll on initial load */
     padding: 0;
-    background: var(--night);
-    color: var(--white-smoke);
-    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--background);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     margin: 0;
     min-height: 100vh;
+    height: 100vh;
+    box-sizing: border-box;
 }
+
 h1 {
-    color: var(--cornell-red-2);
-    font-size: 2.5rem;
+    color: var(--text-primary);
+    font-size: 2.25rem;
+    font-weight: 700;
     text-align: center;
-    margin-top: 40px;
-    letter-spacing: 1px;
+    margin: 24px 0 16px 0;
+    letter-spacing: -0.025em;
 }
+
 #city-form {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 32px 0 16px 0;
-    gap: 10px;
+    margin: 0 auto 12px auto;
+    gap: 20px;
+    position: relative;
+    max-width: 600px;
+    padding: 0 24px;
 }
+
 #city-input {
-    font-size: 1.2rem;
-    padding: 8px 16px;
-    border-radius: 4px;
-    border: 1px solid var(--silver);
-    width: 220px;
-    background: var(--white-smoke);
-    color: var(--eerie-black);
+    font-size: 1.35rem;
+    padding: 20px 32px;
+    border-radius: 12px;
+    border: 2px solid var(--border);
+    width: 100%;
+    max-width: 500px;
+    background: var(--surface);
+    color: var(--text-primary);
     outline: none;
+    position: relative;
+    z-index: 10;
+    transition: all 0.2s ease;
+    font-family: inherit;
 }
+
 #city-input:focus {
-    border: 1.5px solid var(--imperial-red);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
+
+#city-input::placeholder {
+    color: var(--text-muted);
+}
+
 #city-form button {
-    font-size: 1.2rem;
-    padding: 8px 20px;
-    border-radius: 4px;
+    font-size: 1.35rem;
+    padding: 20px 32px;
+    border-radius: 12px;
     border: none;
-    background: var(--cornell-red-2);
-    color: var(--white);
+    background: var(--primary);
+    color: var(--text-primary);
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s ease;
+    font-weight: 600;
+    font-family: inherit;
+    white-space: nowrap;
+    min-width: 160px;
 }
+
 #city-form button:hover {
-    background: var(--imperial-red);
+    background: var(--primary-hover);
+    transform: translateY(-1px);
 }
-#rain-status {
-    font-size: 4rem;
-    text-align: center;
-    margin: 32px 0 0 0;
-    color: var(--imperial-red);
-    font-weight: bold;
-    min-height: 80px;
+
+#city-form button:active {
+    transform: translateY(0);
 }
-.api-section {
-    max-width: 700px;
-    margin: 24px auto 0 auto;
-    background: var(--white-smoke);
-    border-radius: 6px;
-    border: 1px solid var(--silver);
+
+/* Dropdown Menu Styles */
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--surface-elevated);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
     padding: 12px 16px;
+    cursor: pointer;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.2s ease;
     font-size: 0.95rem;
-    color: var(--eerie-black);
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.dropdown-item:hover {
+    background: var(--surface);
+    color: var(--accent);
+}
+
+.dropdown-item.highlighted {
+    background: var(--primary);
+    color: var(--text-primary);
+}
+
+#rain-status {
+    font-size: 3.5rem;
+    font-weight: 800;
+    text-align: center;
+    margin: 16px 0;
+    color: var(--text-primary);
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: -0.02em;
+    transition: color 0.2s, text-shadow 0.2s;
+}
+
+#rain-status:hover {
+    color: var(--primary);
+    text-shadow: 0 0 12px var(--primary), 0 0 24px var(--primary);
+}
+
+
+.api-section {
+    max-width: 800px;
+    margin: 12px auto;
+    background: var(--surface);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    color: var(--text-primary);
     overflow-x: auto;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    display: none; /* Hide by default */
 }
+
 .api-section code {
-    background: var(--timberwolf);
-    color: var(--eerie-black);
-    padding: 1px 3px;
-    border-radius: 3px;
+    background: var(--surface-elevated);
+    color: var(--accent);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.85rem;
 }
-@media (max-width: 700px) {
-    #rain-status { font-size: 2rem; min-height: 40px; }
-    #city-input, #city-form button { font-size: 1rem; padding: 6px 8px; width: 100px; }
+
+/* Location dropdown styling */
+#location-dropdown, #wrong-country-dropdown {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 12px auto;
+    padding: 12px;
+    max-width: 350px;
+    background: var(--surface);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+#location-dropdown p, #wrong-country-dropdown p {
+    color: var(--text-secondary);
+    margin: 0 0 8px 0;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+#location-select, #wrong-country-select {
+    font-size: 1rem;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface-elevated);
+    color: var(--text-primary);
+    cursor: pointer;
+    min-width: 220px;
+    max-width: 100%;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+#location-select:focus, #wrong-country-select:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+#location-dropdown button, #wrong-country-dropdown button {
+    margin-top: 8px;
+    font-size: 0.95rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    background: var(--primary);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    font-family: inherit;
+}
+
+#location-dropdown button:hover, #wrong-country-dropdown button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+/* Why button styling */
+#why-div button {
+    padding: 8px 16px;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    background: var(--surface-elevated);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    margin-bottom: 12px;
+    font-family: inherit;
+}
+
+#why-div button:hover {
+    background: var(--surface);
+    border-color: var(--border-focus);
+    transform: translateY(-1px);
+}
+
+#wrong-country-dropdown {
+    max-width: 600px;
+    padding: 24px;
+    font-size: 1.15rem;
+}
+
+#wrong-country-select {
+    min-width: 320px;
+    font-size: 1.15rem;
+    padding: 12px 18px;
+}
+
+#wrong-country-dropdown button {
+    font-size: 1.25rem;
+    padding: 16px 32px;
+    border-radius: 10px;
+    font-weight: 600;
+    max-width: 100%;
+    width: auto;
+    box-sizing: border-box;
+}
+
+#why-div button {
+    font-size: 1.25rem;
+    padding: 16px 32px;
+    border-radius: 10px;
+    font-weight: 600;
+    max-width: 100%;
+    width: auto;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem;
+        margin: 16px 0 8px 0;
+    }
+    
+    #city-form {
+        flex-direction: column;
+        gap: 14px;
+        padding: 0 8px;
+        max-width: 100vw;
+    }
+    
+    #city-input {
+        max-width: 100%;
+        width: 100%;
+        font-size: 1.1rem;
+        padding: 14px 16px;
+        border-radius: 8px;
+    }
+    
+    #city-form button {
+        width: 100%;
+        font-size: 1.1rem;
+        padding: 14px 16px;
+        border-radius: 8px;
+        min-width: unset;
+    }
+    
+    #rain-status {
+        font-size: 1.5rem;
+        min-height: 32px;
+        margin: 12px 0;
+    }
+    
+    .dropdown-menu {
+        max-height: 150px;
+        font-size: 0.9rem;
+    }
+    
+    .dropdown-item {
+        padding: 10px 12px;
+    }
+    
+    #location-dropdown, #wrong-country-dropdown {
+        margin: 8px 4px;
+        padding: 8px;
+        max-width: 100vw;
+    }
+    
+    #location-select, #wrong-country-select {
+        min-width: 120px;
+        font-size: 0.9rem;
+        padding: 6px 8px;
+    }
+    
+    #location-dropdown button, #wrong-country-dropdown button, #why-div button {
+        font-size: 0.9rem;
+        padding: 6px 10px;
+    }
+    #wrong-country-dropdown {
+        max-width: 100vw;
+        padding: 12px;
+        font-size: 1rem;
+    }
+    #wrong-country-select {
+        min-width: 120px;
+        font-size: 1rem;
+        padding: 8px 12px;
+    }
+    #wrong-country-dropdown button,
+    #why-div button {
+        font-size: 1.05rem;
+        padding: 12px 16px;
+        border-radius: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    #location-select, #wrong-country-select {
+        min-width: 100%;
+    }
+    
+    #location-dropdown, #wrong-country-dropdown {
+        margin: 4px 2px;
+        padding: 6px;
+    }
+}
+
+body.api-expanded, html.api-expanded {
+    overflow-y: auto !important;
+    height: auto !important;
+}
+
+/* Show API sections and allow scrolling when visible */
+.api-section[style*="display: block"] {
+    display: block !important;
 }
