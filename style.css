@@ -146,9 +146,9 @@ h1 {
     font-size: 3.5rem;
     font-weight: 800;
     text-align: center;
-    margin: 16px 0;
+    margin: 8px 0;
     color: var(--text-primary);
-    min-height: 48px;
+    min-height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -243,17 +243,20 @@ h1 {
 }
 
 #why-div button {
-    padding: 8px 16px;
-    font-size: 0.95rem;
-    border-radius: 8px;
+    font-size: 1.5rem;
+    padding: 20px 40px;
+    border-radius: 12px;
     background: var(--surface-elevated);
     color: var(--text-primary);
     border: 1px solid var(--border);
     cursor: pointer;
     transition: all 0.2s ease;
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: 12px;
     font-family: inherit;
+    max-width: 100%;
+    width: auto;
+    box-sizing: border-box;
 }
 
 #why-div button:hover {
@@ -315,8 +318,8 @@ h1 {
     
     #rain-status {
         font-size: 1.5rem;
-        min-height: 32px;
-        margin: 12px 0;
+        min-height: 24px;
+        margin: 6px 0;
     }
     
     .dropdown-menu {
