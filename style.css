@@ -154,6 +154,10 @@ h1 {
     justify-content: center;
     letter-spacing: -0.02em;
     transition: color 0.2s, text-shadow 0.2s;
+    word-break: break-word;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
 }
 
 #rain-status:hover {
@@ -295,31 +299,38 @@ h1 {
     
     #city-form {
         flex-direction: column;
-        gap: 14px;
+        gap: 18px;
         padding: 0 8px;
         max-width: 100vw;
+        align-items: stretch;
     }
     
     #city-input {
         max-width: 100%;
         width: 100%;
-        font-size: 1.1rem;
-        padding: 14px 16px;
-        border-radius: 8px;
+        font-size: 1.15rem;
+        padding: 18px 14px;
+        border-radius: 10px;
+        margin-bottom: 8px;
+        box-sizing: border-box;
     }
     
     #city-form button {
         width: 100%;
-        font-size: 1.1rem;
-        padding: 14px 16px;
-        border-radius: 8px;
+        font-size: 1.15rem;
+        padding: 18px 14px;
+        border-radius: 10px;
         min-width: unset;
+        box-sizing: border-box;
     }
     
     #rain-status {
-        font-size: 1.5rem;
-        min-height: 24px;
-        margin: 6px 0;
+        font-size: 2rem;
+        min-height: 28px;
+        margin: 8px 0;
+        width: 100%;
+        max-width: 100vw;
+        box-sizing: border-box;
     }
     
     .dropdown-menu {
@@ -332,47 +343,110 @@ h1 {
     }
     
     #location-dropdown, #wrong-country-dropdown {
-        margin: 8px 4px;
-        padding: 8px;
         max-width: 100vw;
+        padding: 10px;
+        margin: 8px 0;
     }
     
     #location-select, #wrong-country-select {
-        min-width: 120px;
-        font-size: 0.9rem;
-        padding: 6px 8px;
+        min-width: 100%;
+        font-size: 1.05rem;
+        padding: 12px 10px;
+        margin-bottom: 8px;
+        box-sizing: border-box;
     }
     
     #location-dropdown button, #wrong-country-dropdown button, #why-div button {
-        font-size: 0.9rem;
-        padding: 6px 10px;
-    }
-    #wrong-country-dropdown {
-        max-width: 100vw;
-        padding: 8px;
-        font-size: 0.95rem;
-    }
-    #wrong-country-select {
-        min-width: 100px;
-        font-size: 0.95rem;
-        padding: 6px 8px;
-    }
-    #wrong-country-dropdown button {
-        font-size: 0.95rem;
-        padding: 8px 10px;
-        border-radius: 8px;
+        width: 100%;
+        font-size: 1.05rem;
+        padding: 14px 10px;
+        border-radius: 10px;
+        min-width: unset;
+        box-sizing: border-box;
     }
 }
 
 @media (max-width: 480px) {
-    #location-select, #wrong-country-select {
-        min-width: 100%;
+    #city-form {
+        flex-direction: column;
+        gap: 12px;
+        padding: 0 2vw;
+        max-width: 100vw;
+        align-items: stretch;
     }
-    
+    #city-input, #city-form button {
+        width: 100%;
+        max-width: 100%;
+        font-size: 1.05rem;
+        padding: 16px 10px;
+        border-radius: 16px;
+        margin-bottom: 6px;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+    #rain-status {
+        font-size: 7vw;
+        min-height: 18px;
+        margin: 4px 0;
+        width: 100vw;
+        max-width: 100vw;
+        box-sizing: border-box;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
     #location-dropdown, #wrong-country-dropdown {
-        margin: 4px 2px;
+        max-width: 100vw;
+        width: 100vw;
         padding: 6px;
+        margin: 6px 0;
+        border-radius: 8px;
+        box-sizing: border-box;
     }
+    #location-select, #wrong-country-select {
+        min-width: 100vw;
+        width: 100vw;
+        font-size: 1rem;
+        padding: 12px 8px;
+        margin-bottom: 6px;
+        border-radius: 8px;
+        box-sizing: border-box;
+    }
+    #location-dropdown button, #wrong-country-dropdown button, #why-div button {
+        width: 100vw;
+        font-size: 1rem;
+        padding: 14px 8px;
+        border-radius: 8px;
+        min-width: unset;
+        box-sizing: border-box;
+        margin-bottom: 6px;
+    }
+    h1 {
+        font-size: 1.2rem;
+        margin: 10px 0 6px 0;
+    }
+    .dropdown-menu {
+        max-height: 100px;
+        font-size: 0.95rem;
+    }
+    .dropdown-item {
+        padding: 8px 8px;
+        font-size: 0.95rem;
+    }
+    .api-section {
+        padding: 8px 4px;
+        font-size: 0.85rem;
+        border-radius: 8px;
+    }
+}
+
+/* Always allow vertical scrolling on mobile */
+html, body {
+    overflow-y: auto !important;
+    height: auto !important;
 }
 
 body.api-expanded, html.api-expanded {
