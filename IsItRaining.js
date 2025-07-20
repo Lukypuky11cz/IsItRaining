@@ -108,7 +108,7 @@ function createLocationDropdown(geoResults) {
         const option = document.createElement('option');
         option.value = index;
         const flag = getCountryFlag(result.country_code);
-        option.innerHTML = `${flag} ${result.name}, ${result.country}${result.admin1 ? `, ${result.admin1}` : ''}`;
+        option.textContent = `${flag} ${result.name}, ${result.country}${result.admin1 ? `, ${result.admin1}` : ''}`;
         select.appendChild(option);
     });
 
@@ -145,7 +145,7 @@ function createWrongCountryDropdown() {
         const option = document.createElement('option');
         option.value = index;
         const flag = getCountryFlag(result.country_code);
-        option.innerHTML = `${flag} ${result.name}, ${result.country}${result.admin1 ? `, ${result.admin1}` : ''}`;
+        option.textContent = `${flag} ${result.name}, ${result.country}${result.admin1 ? `, ${result.admin1}` : ''}`;
         if (selectedLocationInfo && result.id === selectedLocationInfo.id) {
             option.selected = true;
         }
@@ -309,12 +309,7 @@ document.getElementById('city-form').addEventListener('submit', async function(e
 
 function getCountryFlag(countryCode) {
     if (!countryCode || countryCode.length !== 2) return '';
-    const flagEmoji = String.fromCodePoint(...countryCode.toUpperCase().split('').map(char => 0x1F1E6 + char.charCodeAt(0) - 65));
-    if (/^[A-Z]{2}$/.test(flagEmoji)) {
-        // Fallback: show country code in a styled span (works on mobile too)
-        return `<span style="font-size:1em;font-weight:600;color:var(--accent);border:1px solid var(--border);border-radius:4px;padding:2px 6px;background:var(--surface-elevated);">${countryCode.toUpperCase()}</span>`;
-    }
-    return flagEmoji;
+    return String.fromCodePoint(...countryCode.toUpperCase().split('').map(char => 0x1F1E6 + char.charCodeAt(0) - 65));
 }
 
 const weatherCodeDescriptions = {
