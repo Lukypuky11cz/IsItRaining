@@ -24,7 +24,7 @@ function createWhyDropdown() {
     const btn = document.createElement('button');
     btn.textContent = lastRainStatus === 'YES' ? 'Why YES?' : 'Why NO?';
     const apiRow = document.createElement('div');
-    apiRow.style = 'display:flex;flex-direction:row;gap:24px;justify-content:center;width:100%;max-width:1200px;margin:0 auto;padding:0 24px;';
+    apiRow.style = 'display:flex;flex-direction:row;gap:24px;justify-content:center;width:100%;max-width:1200px;margin:0 auto;padding:0 0px;';
     const weatherApiSection = document.createElement('div');
     weatherApiSection.className = 'api-section';
     weatherApiSection.style.display = 'none';
