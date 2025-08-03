@@ -263,6 +263,13 @@ h1 {
     box-sizing: border-box;
 }
 
+#why-div {
+    padding: 0 2vw;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
 #why-div button:hover {
     background: var(--surface);
     border-color: var(--border-focus);
@@ -385,11 +392,10 @@ h1 {
         overflow: hidden;
     }
     #rain-status {
-        font-size: 7vw;
-        min-height: 18px;
-        margin: 4px 0;
+        font-size: 10vw;
         width: 100vw;
         max-width: 100vw;
+        min-width: 0;
         box-sizing: border-box;
         white-space: nowrap;
         overflow: hidden;
@@ -397,18 +403,29 @@ h1 {
         display: flex;
         align-items: center;
         justify-content: center;
+        margin: 4px 0;
     }
+        @media (max-width: 600px) {
+            #rain-status {
+                font-size: 35vw;
+            }
+        }
+        @media (min-width: 601px) {
+            #rain-status {
+                font-size: 17vw;
+            }
+        }
     #location-dropdown, #wrong-country-dropdown {
-        max-width: 100vw;
-        width: 100vw;
-        padding: 6px;
-        margin: 6px 0;
+        max-width: 96vw;
+        width: 96vw;
+        padding: 6px 0;
+        margin: 6px 2vw;
         border-radius: 8px;
         box-sizing: border-box;
     }
     #location-select, #wrong-country-select {
-        min-width: 100vw;
-        width: 100vw;
+        min-width: 0;
+        width: 92vw;
         font-size: 1rem;
         padding: 12px 8px;
         margin-bottom: 6px;
@@ -416,13 +433,18 @@ h1 {
         box-sizing: border-box;
     }
     #location-dropdown button, #wrong-country-dropdown button, #why-div button {
-        width: 100vw;
+        width: 100%;
         font-size: 1rem;
         padding: 14px 8px;
         border-radius: 8px;
         min-width: unset;
         box-sizing: border-box;
         margin-bottom: 6px;
+    }
+    #why-div {
+        padding: 0 2vw;
+        width: 100%;
+        box-sizing: border-box;
     }
     h1 {
         font-size: 1.2rem;
@@ -440,6 +462,8 @@ h1 {
         padding: 8px 4px;
         font-size: 0.85rem;
         border-radius: 8px;
+        width: 100%;
+        box-sizing: border-box;
     }
 }
 
