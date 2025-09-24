@@ -199,14 +199,15 @@ async function changeLocation() {
         statusDiv.textContent = lastRainStatus;
         createWhyDropdown();
         createWrongCountryDropdown();
-        // Show and update AI overview
         document.getElementById('ai-overview').style.display = 'block';
         document.getElementById('ai-overview-heading').style.display = 'block';
         document.getElementById('ai-overview').textContent = 'Loading AI overview...';
         try {
             const desc = weatherCodeDescriptions[code] || 'Unknown weather';
-            let aiText = await fetchAIOverview(`Weather: ${desc}. Write a short, clear summary of what this means for someone outside. No inside thinking. Max 30 words.`);
+            let aiText = await fetchAIOverview(`Weather: ${desc}. Tell me shortly about this weather like you're a weatherman. Disregard any intensities or amounts. Avoid greetings.`);
+            // gotta somehow clean up the response rightt
             aiText = aiText.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+            aiText = aiText.replace(/\s*\([^)]*\)\s*$/g, '').trim();
             const aiBox = document.getElementById('ai-overview');
             aiBox.style.textAlign = 'center';
             aiBox.textContent = aiText;
@@ -260,6 +261,7 @@ async function selectLocation() {
             const desc = weatherCodeDescriptions[code] || 'Unknown weather';
             let aiText = await fetchAIOverview(`Weather: ${desc}. Write a short, clear summary of what this means for someone outside. No inside thinking. Max 30 words.`);
             aiText = aiText.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+            aiText = aiText.replace(/\s*\([^)]*\)\s*$/g, '').trim();
             const aiBox = document.getElementById('ai-overview');
             aiBox.style.textAlign = 'center';
             aiBox.textContent = aiText;
@@ -349,6 +351,7 @@ document.getElementById('city-form').addEventListener('submit', async function(e
             const desc = weatherCodeDescriptions[code] || 'Unknown weather';
             let aiText = await fetchAIOverview(`Weather: ${desc}. Write a summary of this weather. Max 50 words.`);
             aiText = aiText.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+            aiText = aiText.replace(/\s*\([^)]*\)\s*$/g, '').trim();
             const aiBox = document.getElementById('ai-overview');
             aiBox.style.textAlign = 'center';
             aiBox.textContent = aiText;
