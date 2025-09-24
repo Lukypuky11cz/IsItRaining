@@ -14,7 +14,7 @@ A straightforward web app that instantly tells you if it's raining in your city,
 All data is fetched live from public APIs. No account or API key needed.
 - [Open-Meteo Geocoding API](https://open-meteo.com/en/docs/geocoding-api) — to convert city names to coordinates.
 - [Open-Meteo Weather API](https://open-meteo.com/en/docs) — to get current weather codes for those coordinates.
-- [Hackclub AI API]
+- [Hackclub AI API](https://ai.hackclub.com/) — used for a short summary of the weather. Nothing functional, just a gimmick ;)
 
 ---
 
