@@ -199,6 +199,22 @@ async function changeLocation() {
         statusDiv.textContent = lastRainStatus;
         createWhyDropdown();
         createWrongCountryDropdown();
+        // Show and update AI overview
+        document.getElementById('ai-overview').style.display = 'block';
+        document.getElementById('ai-overview-heading').style.display = 'block';
+        document.getElementById('ai-overview').textContent = 'Loading AI overview...';
+        try {
+            const desc = weatherCodeDescriptions[code] || 'Unknown weather';
+            let aiText = await fetchAIOverview(`Weather: ${desc}. Write a short, clear summary of what this means for someone outside. No inside thinking. Max 30 words.`);
+            aiText = aiText.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+            const aiBox = document.getElementById('ai-overview');
+            aiBox.style.textAlign = 'center';
+            aiBox.textContent = aiText;
+        } catch (err) {
+            const aiBox = document.getElementById('ai-overview');
+            aiBox.style.textAlign = 'center';
+            aiBox.textContent = 'Failed to fetch AI overview.';
+        }
     } catch {
         statusDiv.textContent = 'FETCH ERROR';
         lastRainStatus = null;
@@ -237,12 +253,41 @@ async function selectLocation() {
         statusDiv.textContent = lastRainStatus;
         createWhyDropdown();
         createWrongCountryDropdown();
+        document.getElementById('ai-overview').style.display = 'block';
+        document.getElementById('ai-overview-heading').style.display = 'block';
+        document.getElementById('ai-overview').textContent = 'Loading AI overview...';
+        try {
+            const desc = weatherCodeDescriptions[code] || 'Unknown weather';
+            let aiText = await fetchAIOverview(`Weather: ${desc}. Write a short, clear summary of what this means for someone outside. No inside thinking. Max 30 words.`);
+            aiText = aiText.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+            const aiBox = document.getElementById('ai-overview');
+            aiBox.style.textAlign = 'center';
+            aiBox.textContent = aiText;
+        } catch (err) {
+            const aiBox = document.getElementById('ai-overview');
+            aiBox.style.textAlign = 'center';
+            aiBox.textContent = 'Failed to fetch AI overview.';
+        }
     } catch {
         statusDiv.textContent = 'FETCH ERROR';
         lastRainStatus = null;
         lastWeatherData = null;
         createWhyDropdown();
     }
+}
+
+async function fetchAIOverview(message) {
+    const response = await fetch('https://ai.hackclub.com/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+            messages: [{ role: 'user', content: message }]
+        })
+    });
+    const data = await response.json();
+    return data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content
+        ? data.choices[0].message.content
+        : 'No response from AI.';
 }
 
 document.getElementById('city-form').addEventListener('submit', async function(e) {
@@ -297,6 +342,21 @@ document.getElementById('city-form').addEventListener('submit', async function(e
         statusDiv.textContent = lastRainStatus;
         createWhyDropdown();
         createWrongCountryDropdown();
+        document.getElementById('ai-overview').style.display = 'block';
+        document.getElementById('ai-overview-heading').style.display = 'block';
+        document.getElementById('ai-overview').textContent = 'Loading AI overview...';
+        try {
+            const desc = weatherCodeDescriptions[code] || 'Unknown weather';
+            let aiText = await fetchAIOverview(`Weather: ${desc}. Write a summary of this weather. Max 50 words.`);
+            aiText = aiText.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+            const aiBox = document.getElementById('ai-overview');
+            aiBox.style.textAlign = 'center';
+            aiBox.textContent = aiText;
+        } catch (err) {
+            const aiBox = document.getElementById('ai-overview');
+            aiBox.style.textAlign = 'center';
+            aiBox.textContent = 'Failed to fetch AI overview.';
+        }
     } catch {
         statusDiv.textContent = 'FETCH ERROR';
         lastRainStatus = null;
