@@ -12,6 +12,16 @@
     --border-focus: #525252;
 }
 
+.title:hover {
+    letter-spacing: 0.07em;
+    transform: scaleX(1.03);
+    transition: letter-spacing 0.8s, transform 0.8s;
+}
+
+.title {
+    transition: letter-spacing 0.8s, transform 0.8s;
+}
+
 body, html {
     overflow-x: hidden;
     overflow-y: hidden;
@@ -468,7 +478,7 @@ h1 {
     }
 }
 
-/* Always allow vertical scrolling on mobile */
+
 html, body {
     overflow-y: auto !important;
     height: auto !important;
