@@ -1,3 +1,18 @@
+function updateMap(lat, lon) {
+    const mapIframe = document.getElementById('map-iframe');
+    const mapHeader = document.getElementById('map-header');
+    if (!mapIframe) return;
+    if (lat && lon) {
+        mapIframe.src = `https://www.openstreetmap.org/export/embed.html?bbox=${lon-0.03}%2C${lat-0.02}%2C${lon+0.03}%2C${lat+0.02}&layer=mapnik&marker=${lat}%2C${lon}`;
+        if (mapHeader && selectedLocationInfo && selectedLocationInfo.name) {
+            mapHeader.textContent = `📍 ${selectedLocationInfo.name}, ${selectedLocationInfo.country || ''}${selectedLocationInfo.admin1 ? ', ' + selectedLocationInfo.admin1 : ''}`;
+        }
+    } else {
+        mapIframe.src = "https://www.openstreetmap.org/export/embed.html?bbox=13.35%2C49.7%2C18.3%2C50.2&layer=mapnik&marker=50.05%2C15.8";
+        if (mapHeader) mapHeader.textContent = '';
+    }
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('city-form').innerHTML = `
         <input type="text" id="city-input" placeholder="Enter your city" required />
@@ -22,7 +37,11 @@ function createWhyDropdown() {
     whyDiv.innerHTML = '';
     if (lastRainStatus === null) return;
     const btn = document.createElement('button');
-    btn.textContent = lastRainStatus === 'YES' ? 'Why YES?' : 'Why NO?';
+    const arrowSpan = document.createElement('span');
+    arrowSpan.style.marginLeft = '10px';
+    arrowSpan.textContent = '▶';
+    btn.appendChild(document.createTextNode(lastRainStatus === 'YES' ? 'Why YES?' : 'Why NO?'));
+    btn.appendChild(arrowSpan);
     const apiRow = document.createElement('div');
     apiRow.style = 'display:flex;flex-direction:row;gap:24px;justify-content:center;width:100%;max-width:1200px;margin:0 auto;padding:0 0px;';
     const weatherApiSection = document.createElement('div');
@@ -41,6 +60,7 @@ function createWhyDropdown() {
         const show = weatherApiSection.style.display === 'none';
         weatherApiSection.style.display = show ? 'block' : 'none';
         geoApiSection.style.display = show ? 'block' : 'none';
+        arrowSpan.textContent = show ? '▼' : '▶';
         if (show) {
             document.body.classList.add('api-expanded');
             document.documentElement.classList.add('api-expanded');
@@ -55,22 +75,38 @@ function createWhyDropdown() {
                 locationHeader = `<div style="background:var(--primary);color:var(--text-primary);padding:12px 16px;border-radius:8px;margin-bottom:16px;font-weight:600;">📍 ${selectedLocationInfo.name}, ${selectedLocationInfo.country}${selectedLocationInfo.admin1 ? `, ${selectedLocationInfo.admin1}` : ''}</div>`;
             }
             
-            weatherApiSection.innerHTML = `<strong style="color:var(--accent);">Weather API Response</strong><br>${locationHeader}<pre style='text-align:left;margin:8px 0 0 0;color:var(--text-secondary);font-size:0.85rem;'>${jsonWeather}</pre>`;
+            weatherApiSection.innerHTML = `
+                <strong style="color:var(--accent);">
+                  Weather API Response
+                  <a href="https://open-meteo.com/en/docs" target="_blank" rel="noopener" style="margin-left:8px;font-size:0.9em;color:var(--accent);text-decoration:underline;">(Open-Meteo Weather API)</a>
+                </strong><br>
+                ${locationHeader}
+                <pre style='text-align:left;margin:8px 0 0 0;color:var(--text-secondary);font-size:0.85rem;'>${jsonWeather}</pre>
+            `;
             if (window.lastGeoData) {
                 let jsonGeo = JSON.stringify(window.lastGeoData, null, 2);
-                
-                // Highlight the selected location in geo JSON
                 if (selectedLocationInfo && selectedLocationInfo.id) {
-                    const locationPattern = new RegExp(
+                     const locationPattern = new RegExp(
                         `(\\{[^}]*"id":\\s*${selectedLocationInfo.id}[^}]*\\})`,
                         'g'
                     );
                     jsonGeo = jsonGeo.replace(locationPattern, '<span style="background:var(--primary);color:var(--text-primary);padding:2px 4px;border-radius:4px;font-weight:600;">$1</span>');
                 }
-                
-                geoApiSection.innerHTML = `<strong style="color:var(--accent);">Geocoding API Response</strong><br><pre style='text-align:left;margin:8px 0 0 0;color:var(--text-secondary);font-size:0.85rem;'>${jsonGeo}</pre>`;
+                geoApiSection.innerHTML = `
+                    <strong style="color:var(--accent);">
+                      Geocoding API Response
+                      <a href="https://open-meteo.com/en/docs/geocoding-api" target="_blank" rel="noopener" style="margin-left:8px;font-size:0.9em;color:var(--accent);text-decoration:underline;">(Open-Meteo Geocoding API)</a>
+                    </strong><br>
+                    <pre style='text-align:left;margin:8px 0 0 0;color:var(--text-secondary);font-size:0.85rem;'>${jsonGeo}</pre>
+                `;
             } else {
-                geoApiSection.innerHTML = `<strong style="color:var(--accent);">Geocoding API Response</strong><br><em style="color:var(--text-muted);">No geo data available.</em>`;
+                geoApiSection.innerHTML = `
+                    <strong style="color:var(--accent);">
+                      Geocoding API Response
+                      <a href="https://open-meteo.com/en/docs/geocoding-api" target="_blank" rel="noopener" style="margin-left:8px;font-size:0.9em;color:var(--accent);text-decoration:underline;">(Open-Meteo Geocoding API)</a>
+                    </strong><br>
+                    <em style="color:var(--text-muted);">No geo data available.</em>
+                `;
             }
         } else {
             document.body.classList.remove('api-expanded');
@@ -78,7 +114,6 @@ function createWhyDropdown() {
         }
     };
     whyDiv.appendChild(btn);
-    // Add responsive behavior for mobile
     const mediaQuery = window.matchMedia('(max-width: 768px)');
     if (mediaQuery.matches) {
         apiRow.style.flexDirection = 'column';
@@ -173,7 +208,9 @@ async function changeLocation() {
         id: selectedLocation.id,
         name: selectedLocation.name,
         country: selectedLocation.country,
-        admin1: selectedLocation.admin1
+        admin1: selectedLocation.admin1,
+        latitude: selectedLocation.latitude,
+        longitude: selectedLocation.longitude
     };
     
     const statusDiv = document.getElementById('rain-status');
@@ -197,24 +234,35 @@ async function changeLocation() {
         lastRainStatus = rainCodes.includes(code) ? 'YES' : 'NO';
         lastWeatherData = weatherData;
         statusDiv.textContent = lastRainStatus;
+        updateMap(selectedLocationInfo.latitude, selectedLocationInfo.longitude);
         createWhyDropdown();
         createWrongCountryDropdown();
         document.getElementById('ai-overview').style.display = 'block';
         document.getElementById('ai-overview-heading').style.display = 'block';
-        document.getElementById('ai-overview').textContent = 'Loading AI overview...';
+    document.getElementById('ai-overview-heading').innerHTML = '<span style="color:var(--accent);font-weight:bold;">AI API Response</span> <a href="https://ai.hackclub.com/" target="_blank" rel="noopener" style="margin-left:8px;font-size:0.9em;color:var(--accent);text-decoration:underline;">(Hackclub AI API)</a>';
+    document.getElementById('ai-overview').innerHTML = '<span id="ai-overview-text">Loading AI overview...</span>';
         try {
             const desc = weatherCodeDescriptions[code] || 'Unknown weather';
             let aiText = await fetchAIOverview(`Weather: ${desc}. Tell me shortly about this weather like you're a weatherman. Disregard any intensities or amounts. Avoid greetings.`);
-            // gotta somehow clean up the response rightt
             aiText = aiText.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
             aiText = aiText.replace(/\s*\([^)]*\)\s*$/g, '').trim();
             const aiBox = document.getElementById('ai-overview');
             aiBox.style.textAlign = 'center';
-            aiBox.textContent = aiText;
+            const aiTextSpan = document.getElementById('ai-overview-text');
+            if (aiTextSpan) {
+                aiTextSpan.textContent = aiText;
+            } else {
+                aiBox.textContent = aiText;
+            }
         } catch (err) {
             const aiBox = document.getElementById('ai-overview');
             aiBox.style.textAlign = 'center';
-            aiBox.textContent = 'Failed to fetch AI overview.';
+            const aiTextSpan = document.getElementById('ai-overview-text');
+            if (aiTextSpan) {
+                aiTextSpan.textContent = 'Failed to fetch AI overview.';
+            } else {
+                aiBox.textContent = 'Failed to fetch AI overview.';
+            }
         }
     } catch {
         statusDiv.textContent = 'FETCH ERROR';
@@ -233,7 +281,9 @@ async function selectLocation() {
         id: selectedLocation.id,
         name: selectedLocation.name,
         country: selectedLocation.country,
-        admin1: selectedLocation.admin1
+        admin1: selectedLocation.admin1,
+        latitude: selectedLocation.latitude,
+        longitude: selectedLocation.longitude
     };
     
     const statusDiv = document.getElementById('rain-status');
@@ -252,11 +302,13 @@ async function selectLocation() {
         lastRainStatus = rainCodes.includes(code) ? 'YES' : 'NO';
         lastWeatherData = weatherData;
         statusDiv.textContent = lastRainStatus;
+        updateMap(selectedLocationInfo.latitude, selectedLocationInfo.longitude);
         createWhyDropdown();
         createWrongCountryDropdown();
         document.getElementById('ai-overview').style.display = 'block';
         document.getElementById('ai-overview-heading').style.display = 'block';
-        document.getElementById('ai-overview').textContent = 'Loading AI overview...';
+    document.getElementById('ai-overview-heading').innerHTML = '<span style="color:var(--accent);font-weight:bold;">AI API Response</span> <a href="https://ai.hackclub.com/" target="_blank" rel="noopener" style="margin-left:8px;font-size:0.9em;color:var(--accent);text-decoration:underline;">(Hackclub AI API)</a>';
+    document.getElementById('ai-overview').innerHTML = '<span id="ai-overview-text">Loading AI overview...</span>';
         try {
             const desc = weatherCodeDescriptions[code] || 'Unknown weather';
             let aiText = await fetchAIOverview(`Weather: ${desc}. Write a short, clear summary of what this means for someone outside. No inside thinking. Max 30 words.`);
@@ -264,11 +316,21 @@ async function selectLocation() {
             aiText = aiText.replace(/\s*\([^)]*\)\s*$/g, '').trim();
             const aiBox = document.getElementById('ai-overview');
             aiBox.style.textAlign = 'center';
-            aiBox.textContent = aiText;
+            const aiTextSpan = document.getElementById('ai-overview-text');
+            if (aiTextSpan) {
+                aiTextSpan.textContent = aiText;
+            } else {
+                aiBox.textContent = aiText;
+            }
         } catch (err) {
             const aiBox = document.getElementById('ai-overview');
             aiBox.style.textAlign = 'center';
-            aiBox.textContent = 'Failed to fetch AI overview.';
+            const aiTextSpan = document.getElementById('ai-overview-text');
+            if (aiTextSpan) {
+                aiTextSpan.textContent = 'Failed to fetch AI overview.';
+            } else {
+                aiBox.textContent = 'Failed to fetch AI overview.';
+            }
         }
     } catch {
         statusDiv.textContent = 'FETCH ERROR';
@@ -332,7 +394,9 @@ document.getElementById('city-form').addEventListener('submit', async function(e
             id: geoData.results[0].id,
             name: geoData.results[0].name,
             country: geoData.results[0].country,
-            admin1: geoData.results[0].admin1
+            admin1: geoData.results[0].admin1,
+            latitude: latitude,
+            longitude: longitude
         };
         
         const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=weather_code&timezone=Europe%2FBerlin&forecast_days=1`);
@@ -342,11 +406,13 @@ document.getElementById('city-form').addEventListener('submit', async function(e
         lastRainStatus = rainCodes.includes(code) ? 'YES' : 'NO';
         lastWeatherData = weatherData;
         statusDiv.textContent = lastRainStatus;
+        updateMap(selectedLocationInfo.latitude, selectedLocationInfo.longitude);
         createWhyDropdown();
         createWrongCountryDropdown();
         document.getElementById('ai-overview').style.display = 'block';
         document.getElementById('ai-overview-heading').style.display = 'block';
-        document.getElementById('ai-overview').textContent = 'Loading AI overview...';
+    document.getElementById('ai-overview-heading').innerHTML = '<span style="color:var(--accent);font-weight:bold;">AI API Response</span> <a href="https://ai.hackclub.com/" target="_blank" rel="noopener" style="margin-left:8px;font-size:0.9em;color:var(--accent);text-decoration:underline;">(Hackclub AI API)</a>';
+    document.getElementById('ai-overview').innerHTML = '<span id="ai-overview-text">Loading AI overview...</span>';
         try {
             const desc = weatherCodeDescriptions[code] || 'Unknown weather';
             let aiText = await fetchAIOverview(`Weather: ${desc}. Write a summary of this weather. Max 50 words.`);
@@ -354,11 +420,21 @@ document.getElementById('city-form').addEventListener('submit', async function(e
             aiText = aiText.replace(/\s*\([^)]*\)\s*$/g, '').trim();
             const aiBox = document.getElementById('ai-overview');
             aiBox.style.textAlign = 'center';
-            aiBox.textContent = aiText;
+            const aiTextSpan = document.getElementById('ai-overview-text');
+            if (aiTextSpan) {
+                aiTextSpan.textContent = aiText;
+            } else {
+                aiBox.textContent = aiText;
+            }
         } catch (err) {
             const aiBox = document.getElementById('ai-overview');
             aiBox.style.textAlign = 'center';
-            aiBox.textContent = 'Failed to fetch AI overview.';
+            const aiTextSpan = document.getElementById('ai-overview-text');
+            if (aiTextSpan) {
+                aiTextSpan.textContent = 'Failed to fetch AI overview.';
+            } else {
+                aiBox.textContent = 'Failed to fetch AI overview.';
+            }
         }
     } catch {
         statusDiv.textContent = 'FETCH ERROR';
