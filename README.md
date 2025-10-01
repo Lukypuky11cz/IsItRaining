@@ -13,12 +13,12 @@ Simple web app that instantly tells you if it's raining in your city, using real
 ## APIs Used
 
 All data is fetched live from public APIs. No account or API key needed.
-- [Open-Meteo Geocoding API](https://open-meteo.com/en/docs/geocoding-api) — to convert city names to coordinates.
-- [Open-Meteo Weather API](https://open-meteo.com/en/docs) — to get current weather codes for those coordinates. (API updates are every 15 minutes, so it isn't technically "real-time")
-     - The "Why YES / Why NO" button displays the raw Open-Meteo API responses in JSON format.
-- [Hackclub AI API](https://ai.hackclub.com/) — used for a short summary of the weather in that city, however it's just a gimmick ;)
-     - The response is generated based on this prompt: *weather code description* Tell me shortly about this weather like you're a weatherman. Disregard any intensities or amounts. Avoid greetings.ell me shortly about this weather like you're a weatherman. Disregard any intensities or amounts. Avoid greetings.
-- [OpenStreetMap](https://www.openstreetmap.org) — embedded map used to show the selected city. Again just a cool gimmick ;) Map data © OpenStreetMap contributors
+- [Open-Meteo Geocoding API](https://open-meteo.com/en/docs/geocoding-api) — convert city names to coordinates.
+- [Open-Meteo Weather API](https://open-meteo.com/en/docs) — fetch current weather codes (updates roughly every 15 minutes, so near real-time).
+  - The “Why YES / Why NO” button reveals the raw JSON responses from the Geocoding and Weather endpoints.
+- [Hackclub AI API](https://ai.hackclub.com/) — generates a short playful weather summary (gimmick feature).
+  - Prompt template used: `Weather: <weather code description>. Tell me shortly about this weather like you're a weatherman. Disregard any intensities or amounts. Avoid greetings.`
+- [OpenStreetMap](https://www.openstreetmap.org) — embedded map showing the selected city (visual aid). Map data © OpenStreetMap contributors
 
 ---
 
