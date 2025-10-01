@@ -17,7 +17,7 @@ All data is fetched live from public APIs. No account or API key needed.
 - [Open-Meteo Weather API](https://open-meteo.com/en/docs) — to get current weather codes for those coordinates. (API updates are every 15 minutes, so it isn't technically "real-time")
      - The "Why YES / Why NO" button displays the raw Open-Meteo API responses in JSON format.
 - [Hackclub AI API](https://ai.hackclub.com/) — used for a short summary of the weather in that city, however it's just a gimmick ;)
-     - (The response is generated based on this prompt: *weather code description* Tell me shortly about this weather like you're a weatherman. Disregard any intensities or amounts. Avoid greetings.ell me shortly about this weather like you're a weatherman. Disregard any intensities or amounts. Avoid greetings.)
+     - The response is generated based on this prompt: *weather code description* Tell me shortly about this weather like you're a weatherman. Disregard any intensities or amounts. Avoid greetings.ell me shortly about this weather like you're a weatherman. Disregard any intensities or amounts. Avoid greetings.
 - [OpenStreetMap](https://www.openstreetmap.org) — embedded map used to show the selected city. Again just a cool gimmick ;) Map data © OpenStreetMap contributors
 
 ---
