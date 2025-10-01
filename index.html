@@ -18,56 +18,11 @@
             <div style="text-align: center;" id="rain-status"></div>
         </div>
     </div>
-    <div id="map-container">
+    <div id="map-container" data-map>
+        <button id="map-toggle-btn" aria-label="Hide map" aria-expanded="true" style="position:absolute;top:6px;right:6px;">✕</button>
         <div id="map-header" style="padding:6px 10px 4px 10px;text-align:center;font-weight:600;color:var(--accent);font-size:0.9rem;line-height:1.2;min-height:24px;width:100%;box-sizing:border-box;"></div>
         <iframe id="map-iframe" title="Map" width="100%" height="100%" frameborder="0" style="border:0;min-width:160px;min-height:160px;flex:1;" src="https://www.openstreetmap.org/export/embed.html?bbox=13.35%2C49.7%2C18.3%2C50.2&amp;layer=mapnik&amp;marker=50.05%2C15.8"></iframe>
     </div>
-    <style>
-    #map-container {
-        position: fixed;
-        top: 170px;
-        right: 24px;
-        width: 360px;
-        height: 320px;
-        background: var(--surface);
-        border-radius: 16px;
-        box-shadow: 0 4px 22px rgba(0,0,0,0.30);
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        justify-content: flex-start;
-        z-index: 40;
-        overflow: hidden;
-        border:1px solid var(--border);
-        backdrop-filter: blur(4px);
-    }
-    body.has-wide-map #main-content { margin-right: 400px; }
-    @media (max-width: 1250px) {
-        body.has-wide-map #main-content { padding-right: 0; }
-        #map-container {
-            position: static;
-            width: 100%;
-            max-width: 820px;
-            margin: 24px auto 0 auto;
-            height: 260px;
-            right: auto;
-            top: auto;
-        }
-    }
-    @media (max-width: 600px) {
-        #rain-status {
-            font-size: 35vw;
-        }
-        #map-container {
-            height: 180px;
-        }
-    }
-    @media (min-width: 601px) {
-        #rain-status {
-            font-size: 17vw;
-        }
-    }
-    </style>
     <script>
     (function(){
         function setLayout(){

@@ -19,6 +19,13 @@ window.addEventListener('DOMContentLoaded', () => {
         <button type="submit">Check</button>
     `;
     createWhyDropdown();
+    // Map toggle setup
+    const mapToggleBtn = document.getElementById('map-toggle-btn');
+    if (mapToggleBtn) {
+        mapToggleBtn.addEventListener('click', toggleMapCollapse);
+    }
+    window.addEventListener('resize', ensureMapHeight);
+    ensureMapHeight();
 });
 
 let lastWeatherData = null;
@@ -481,3 +488,20 @@ const weatherCodeDescriptions = {
     96: "Thunderstorm with slight and heavy hail",
     99: "Thunderstorm with slight and heavy hail"
 };
+
+function toggleMapCollapse() {
+    const container = document.getElementById('map-container');
+    const btn = document.getElementById('map-toggle-btn');
+    if (!container || !btn) return;
+    const collapsed = container.classList.toggle('collapsed');
+    btn.setAttribute('aria-expanded', (!collapsed).toString());
+    btn.setAttribute('aria-label', collapsed ? 'Show map' : 'Hide map');
+    btn.textContent = collapsed ? '🗺️' : '✕';
+    if (!collapsed) ensureMapHeight();
+}
+function ensureMapHeight() {
+    const container = document.getElementById('map-container');
+    if (!container || container.classList.contains('collapsed')) return;
+    // Force reflow to apply correct responsive height class logic (no inline height needed)
+    container.style.height = ''; // ensure CSS media queries control it
+}
