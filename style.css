@@ -472,3 +472,31 @@ h1 {
         width:100%;
     }
 }
+
+#map-container .map-inner {
+    /* ensure flex child fills container in all browsers */
+    flex:1 1 auto;
+    min-height:0;
+}
+#map-container iframe {
+    flex:1 1 auto;
+    display:block;
+    width:100%;
+    height:100%;
+}
+
+/* Firefox explicit height fallback (detect via @supports) */
+@supports (-moz-appearance:none) {
+    #map-container:not(.collapsed) { height:320px; }
+    @media (max-width:1250px){
+        #map-container:not(.collapsed) { height:260px; }
+    }
+    @media (max-width:600px){
+        #map-container:not(.collapsed) { height:180px; }
+    }
+    #map-container.collapsed { height:48px !important; }
+    #map-container .map-inner,
+    #map-container iframe {
+        height:100%;
+    }
+}
