@@ -7,14 +7,17 @@ A straightforward web app that instantly tells you if it's raining in your city,
 
 1. Enter a city name and submit.
 2. The app uses Open-Meteo's APIs to get the location and fetch the weather from there.
-4. If the weather code means rain, it shows YES. Otherwise, it shows NO.
+3. If the weather code means rain, it shows YES. Otherwise, it shows NO.
 ---
 ## APIs Used
 
 All data is fetched live from public APIs. No account or API key needed.
 - [Open-Meteo Geocoding API](https://open-meteo.com/en/docs/geocoding-api) — to convert city names to coordinates.
 - [Open-Meteo Weather API](https://open-meteo.com/en/docs) — to get current weather codes for those coordinates.
-- [Hackclub AI API](https://ai.hackclub.com/) — used for a short summary of the weather, however it's just a gimmick ;)
+> the "why YES / why NO" button allows to show the raw open-meteo API responses in json format. 
+- [Hackclub AI API](https://ai.hackclub.com/) — used for a short summary of the weather in that city, however it's just a gimmick ;)
+- [OpenStreetMap](https://www.openstreetmap.org) — embedded map used to show the selected city. Again just a cool gimmick ;) Map data © OpenStreetMap contributors
+
 
 ---
 
