@@ -10,6 +10,9 @@
     --text-muted:#737373;
     --border:#404040;
     --border-focus:#525252;
+    --map-h-desktop:320px;
+    --map-h-medium:260px;
+    --map-h-mobile:180px;
 }
 
 .title:hover {
@@ -349,9 +352,48 @@ h1 {
     border:1px solid var(--border);
     backdrop-filter:blur(4px);
     transition:height .25s ease;
+    min-height:48px;
 }
 
-#map-container:not(.collapsed){ height:320px; }
+/* unified expanded height via variable */
+#map-container:not(.collapsed){
+    height:var(--map-h-desktop);
+}
+@media (max-width:1250px){
+    #map-container:not(.collapsed){
+        height:var(--map-h-medium);
+    }
+}
+@media (max-width:600px){
+    #map-container:not(.collapsed){
+        height:var(--map-h-mobile);
+    }
+}
+
+/* ensure inner + iframe always stretch */
+#map-container .map-inner,
+#map-container iframe {
+    height:100%;
+    box-sizing:border-box;
+    min-height:0;
+}
+
+/* stronger Firefox + remote hosting fallback */
+@supports (-moz-appearance:none){
+    #map-container:not(.collapsed){
+        height:var(--map-h-desktop) !important;
+    }
+    @media (max-width:1250px){
+        #map-container:not(.collapsed){
+            height:var(--map-h-medium) !important;
+        }
+    }
+    @media (max-width:600px){
+        #map-container:not(.collapsed){
+            height:var(--map-h-mobile) !important;
+        }
+    }
+}
 
 @media (max-width:1250px){ #map-container:not(.collapsed){ height:260px; } }
 
@@ -470,33 +512,5 @@ h1 {
     }
     #city-form{
         width:100%;
-    }
-}
-
-#map-container .map-inner {
-    /* ensure flex child fills container in all browsers */
-    flex:1 1 auto;
-    min-height:0;
-}
-#map-container iframe {
-    flex:1 1 auto;
-    display:block;
-    width:100%;
-    height:100%;
-}
-
-/* Firefox explicit height fallback (detect via @supports) */
-@supports (-moz-appearance:none) {
-    #map-container:not(.collapsed) { height:320px; }
-    @media (max-width:1250px){
-        #map-container:not(.collapsed) { height:260px; }
-    }
-    @media (max-width:600px){
-        #map-container:not(.collapsed) { height:180px; }
-    }
-    #map-container.collapsed { height:48px !important; }
-    #map-container .map-inner,
-    #map-container iframe {
-        height:100%;
     }
 }
